@@ -7,6 +7,7 @@ Release:	0.1
 License:	GPL
 Group:		Applications/System
 Source0:	http://www.osdl.org/archive/andyp/kexec/%{kernel-version}/%{name}-%{version}-%{kernel_version}.tgz
+# Source0-md5:	1fb70ca3ab2075a4da1acc79917fd084
 Source1:	do-kexec.sh
 URL:		http://www.xmission.com/~ebiederm/files/kexec/
 BuildRequires:	libstdc++-devel
