@@ -1,0 +1,11 @@
+--- kexec-tools-1.8-2.5.73/Makefile.main.orig	Mon Dec  2 03:21:40 2002
++++ kexec-tools-1.8-2.5.73/Makefile.main	Mon Jul 14 13:47:59 2003
+@@ -2,7 +2,7 @@
+ VERSION="1.8"
+ DATE="01 December 2002"
+ CPPFLAGS:= -I./util_lib/include -DVERSION='$(VERSION)' -DRELEASE_DATE='$(DATE)'
+-CFLAGS:=-Wall -g -O2 -fno-strict-aliasing $(CPPFLAGS)
++CFLAGS:=-Wall -fno-strict-aliasing $(CPPFLAGS) $(OPTFLAGS)
+ 
+ PREFIX:=$(OBJDIR)/build
+ SBINDIR=$(PREFIX)/sbin
