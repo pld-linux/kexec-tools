@@ -1,14 +1,19 @@
+# TODO:
+# - %desc en and pl are out of sync
+# - rc.shutdown checks for [ -x /sbin/kexec ] so should put the files to /sbin (at least the kexec itself)
 %define		kernel_version	2.5.73
 Summary:	Tool for starting new kernel without reboot
 Summary(pl):	Narzêdzie pozwalaj±ce za³adowaæ nowe j±dro bez konieczno¶ci restartu
 Name:		kexec-tools
 Version:	1.8
-Release:	0.1
+Release:	0.3
 License:	GPL
 Group:		Applications/System
 Source0:	http://www.osdl.org/archive/andyp/kexec/%{kernel_version}/%{name}-%{version}-%{kernel_version}.tgz
 # Source0-md5:	1fb70ca3ab2075a4da1acc79917fd084
 Source1:	do-kexec.sh
+Source2:	http://www.xmission.com/~ebiederm/files/kexec/README
+# Source2-md5:	b80e99096ec4ef37b09ecb5707233fb3
 Patch0:		%{name}-opt.patch
 URL:		http://www.xmission.com/~ebiederm/files/kexec/
 BuildRequires:	glibc-static
@@ -46,11 +51,12 @@ install -d $RPM_BUILD_ROOT%{_sbindir}
 install objdir/build/sbin/kexec $RPM_BUILD_ROOT%{_sbindir}
 install objdir/build/bin/kexec_test $RPM_BUILD_ROOT%{_sbindir}
 install %{SOURCE1} $RPM_BUILD_ROOT%{_sbindir}
+install %{SOURCE2} README
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc TODO News
+%doc TODO News README
 %attr(755,root,root) %{_sbindir}/*
