@@ -16,10 +16,10 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %description
 
 %description -l pl
-Narzedzie to pozwala wykorzystac zaimplementowany w jadrach 2.5/2.6 system
-pozwalajacy zaladowac nastepny kernel bez koniecznosci restartu maszyny. Od
-momentu wydania polecenia kexec do startu nowego kernela uplywa czas ponizej
-0.5 sekundy!
+Narzedzie to pozwala wykorzystac zaimplementowany w jadrach 2.5/2.6
+system pozwalajacy zaladowac nastepny kernel bez koniecznosci restartu
+maszyny. Od momentu wydania polecenia kexec do startu nowego kernela
+uplywa czas ponizej 0.5 sekundy!
 
 %prep
 rm -rf $RPM_BUILD_ROOT
