@@ -1,6 +1,6 @@
 #!/bin/sh
 
-KEXEC=/usr/sbin/kexec
+KEXEC=/sbin/kexec
 usage()
 {
 	echo "Usage: do-kexec.sh /boot/bzImage [commandline options]"
