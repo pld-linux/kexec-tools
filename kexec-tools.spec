@@ -2,7 +2,7 @@ Summary:	Tool for starting new kernel without reboot
 Summary(pl):	Narzêdzie pozwalaj±ce za³adowaæ nowe j±dro bez konieczno¶ci restartu
 Name:		kexec-tools
 Version:	1.101
-Release:	0.1
+Release:	1
 License:	GPL
 Group:		Applications/System
 Source0:	http://www.xmission.com/~ebiederm/files/kexec/%{name}-%{version}.tar.gz
