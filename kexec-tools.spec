@@ -11,7 +11,8 @@ Source1:	do-kexec.sh
 Source2:	http://www.xmission.com/~ebiederm/files/kexec/README
 # Source2-md5:	b80e99096ec4ef37b09ecb5707233fb3
 URL:		http://www.xmission.com/~ebiederm/files/kexec/
-BuildRequires:	glibc-static
+BuildRequires:	glibc-devel
+BuildRequires:	zlib-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_sbindir	/sbin
