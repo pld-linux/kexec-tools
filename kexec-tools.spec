@@ -14,6 +14,7 @@ Patch0:		%{name}-opt.patch
 URL:		http://www.xmission.com/~ebiederm/files/kexec/
 BuildRequires:	autoconf
 BuildRequires:	glibc-devel
+BuildRequires:	tar >= 1:1.15.1
 BuildRequires:	zlib-devel
 ExclusiveArch:	%{ix86} %{x8664} alpha ia64 ppc ppc64 
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
