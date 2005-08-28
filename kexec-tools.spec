@@ -10,9 +10,12 @@ Source0:	http://www.xmission.com/~ebiederm/files/kexec/%{name}-%{version}.tar.gz
 Source1:	do-kexec.sh
 Source2:	http://www.xmission.com/~ebiederm/files/kexec/README
 # Source2-md5:	b80e99096ec4ef37b09ecb5707233fb3
+Patch0:		%{name}-opt.patch
 URL:		http://www.xmission.com/~ebiederm/files/kexec/
+BuildRequires:	autoconf
 BuildRequires:	glibc-devel
 BuildRequires:	zlib-devel
+ExclusiveArch:	%{ix86} %{x8664} alpha ia64 ppc ppc64 
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_sbindir	/sbin
@@ -24,22 +27,21 @@ has only been tested, and had the kinks worked out on x86, but the
 generic code should work on any architecture.
 
 %description -l pl
-Narzêdzie to pozwala wykorzystaæ zaimplementowany w j±drach 2.5/2.6
-system pozwalaj±cy za³adowaæ nastêpne j±dro bez konieczno¶ci restartu
-maszyny. Od momentu wydania polecenia kexec do startu nowego j±dra
-up³ywa czas poni¿ej 0.5 sekundy!
-
-Aktualna implementacja by³a testowana tylko na x86, ale ogólny kod
-powinien dzia³aæ na ka¿dej architekturze.
+kexec to zestaw wywo³añ systemowych pozwalaj±cych za³adowaæ nastêpne
+j±dro z poziomu aktualnie dzia³aj±cego j±dra Linuksa. Aktualna
+implementacja by³a testowana tylko na x86, ale ogólny kod powinien
+dzia³aæ na ka¿dej architekturze.
 
 %prep
-%setup -q
+%setup -q -c -T
+# workaround for kexec-tools-%{version}.spec outside main directory in tarball
+tar xzf %{SOURCE0} --strip-components=1
+%patch0 -p1
 
 %build
+%{__autoconf}
 %configure
-%{__make} \
-	CC="%{__cc}" \
-	OPTFLAGS="%{rpmcflags}"
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -55,6 +57,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS TODO News README
+%doc AUTHORS News README TODO
 %attr(755,root,root) %{_sbindir}/*
 %attr(755,root,root) %{_libdir}/%{name}
