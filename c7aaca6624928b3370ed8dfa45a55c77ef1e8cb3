@@ -1,0 +1,3 @@
+- added opt patch, pass CC and OPTFLAGS
+- added en description (from %{URL}/README)
+- removed bogus BR, added BR: glibc-static (tools are statically linked)
