@@ -16,7 +16,7 @@ BuildRequires:	autoconf
 BuildRequires:	glibc-devel
 BuildRequires:	tar >= 1:1.15.1
 BuildRequires:	zlib-devel
-ExclusiveArch:	%{ix86} %{x8664} alpha ia64 ppc ppc64 
+ExclusiveArch:	%{ix86} %{x8664} alpha ia64 ppc ppc64
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_sbindir	/sbin
