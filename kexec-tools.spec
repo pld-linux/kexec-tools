@@ -3,7 +3,7 @@ Summary(pl):	Narzêdzie pozwalaj±ce za³adowaæ nowe j±dro bez konieczno¶ci restart
 Name:		kexec-tools
 Version:	1.101
 Release:	1
-License:	GPL
+License:	GPL v2
 Group:		Applications/System
 Source0:	http://www.xmission.com/~ebiederm/files/kexec/%{name}-%{version}.tar.gz
 # Source0-md5:	b4f7ffcc294d41a6a4c40d6e44b7734d
@@ -13,7 +13,6 @@ Source2:	http://www.xmission.com/~ebiederm/files/kexec/README
 Patch0:		%{name}-opt.patch
 URL:		http://www.xmission.com/~ebiederm/files/kexec/
 BuildRequires:	autoconf
-BuildRequires:	glibc-devel
 BuildRequires:	tar >= 1:1.15.1
 BuildRequires:	zlib-devel
 ExclusiveArch:	%{ix86} %{x8664} alpha ia64 ppc ppc64
