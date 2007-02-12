@@ -1,5 +1,5 @@
 Summary:	Tool for starting new kernel without reboot
-Summary(pl):	Narzêdzie pozwalaj±ce za³adowaæ nowe j±dro bez konieczno¶ci restartu
+Summary(pl.UTF-8):   NarzÄ™dzie pozwalajÄ…ce zaÅ‚adowaÄ‡ nowe jÄ…dro bez koniecznoÅ›ci restartu
 Name:		kexec-tools
 Version:	1.101
 Release:	1
@@ -26,11 +26,11 @@ from the currently executing Linux kernel. The current implementation
 has only been tested, and had the kinks worked out on x86, but the
 generic code should work on any architecture.
 
-%description -l pl
-kexec to zestaw wywo³añ systemowych pozwalaj±cych za³adowaæ nastêpne
-j±dro z poziomu aktualnie dzia³aj±cego j±dra Linuksa. Aktualna
-implementacja by³a testowana tylko na x86, ale ogólny kod powinien
-dzia³aæ na ka¿dej architekturze.
+%description -l pl.UTF-8
+kexec to zestaw wywoÅ‚aÅ„ systemowych pozwalajÄ…cych zaÅ‚adowaÄ‡ nastÄ™pne
+jÄ…dro z poziomu aktualnie dziaÅ‚ajÄ…cego jÄ…dra Linuksa. Aktualna
+implementacja byÅ‚a testowana tylko na x86, ale ogÃ³lny kod powinien
+dziaÅ‚aÄ‡ na kaÅ¼dej architekturze.
 
 %prep
 %setup -q -c -T
