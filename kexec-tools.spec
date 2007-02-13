@@ -1,5 +1,5 @@
 Summary:	Tool for starting new kernel without reboot
-Summary(pl.UTF-8):   Narzędzie pozwalające załadować nowe jądro bez konieczności restartu
+Summary(pl.UTF-8):	Narzędzie pozwalające załadować nowe jądro bez konieczności restartu
 Name:		kexec-tools
 Version:	1.101
 Release:	1
