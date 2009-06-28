@@ -20,6 +20,13 @@ APPEND=""
 # Get service config - may override defaults
 [ -f /etc/sysconfig/kexec ] && . /etc/sysconfig/kexec
 
+start() {
+	if [ -f /var/lock/subsys/kexec ]; then
+		return
+	fi
+	touch /var/lock/subsys/kexec
+}
+
 stop() {
 	if ! is_yes "$LOAD_KEXEC" || [ ! -f /sys/kernel/kexec_loaded ]; then
 		return
@@ -46,19 +53,41 @@ stop() {
 	else
 		fail
 	fi
+
+	rm -f /var/lock/subsys/kexec
+}
+
+status() {
+  	if [ "$(cat /sys/kernel/kexec_loaded)" = 1 ]; then
+		echo "Kexec image loaded"
+	else
+		echo "Kexec image is not loaded"
+	fi
+  	if [ "$(cat /sys/kernel/kexec_crash_loaded)" = 1 ]; then
+		echo "Kexec image for kernel crash loaded"
+	else
+		echo "Kexec image for kernel crash is not loaded"
+	fi
 }
 
 RETVAL=0
 # See how we were called.
 case "$1" in
   start)
-	# it's a noop
+  	start
 	;;
   stop)
   	stop
 	;;
+  restart)
+	stop
+	start
+	;;
+  status)
+	status
+	;;
   *)
-	msg_usage "$0 {start|stop}"
+	msg_usage "$0 {start|stop|restart|status}"
 	exit 3
 esac
 
