@@ -2,15 +2,20 @@ Summary:	Tool for starting new kernel without reboot
 Summary(pl.UTF-8):	Narzędzie pozwalające załadować nowe jądro bez konieczności restartu
 Name:		kexec-tools
 Version:	2.0.0
-Release:	0.1
+Release:	0.3
 License:	GPL v2
 Group:		Applications/System
 Source0:	http://www.kernel.org/pub/linux/kernel/people/horms/kexec-tools/%{name}-%{version}.tar.bz2
 # Source0-md5:	d9f2ecd3c3307905f24130a25816e6cc
 Patch0:		as-needed.patch
+Source1:	kexec.init
+Source2:	kexec.sysconfig
 URL:		http://www.kernel.org/pub/linux/kernel/people/horms/kexec-tools/
 BuildRequires:	autoconf
+BuildRequires:	rpmbuild(macros) >= 1.228
 BuildRequires:	zlib-devel
+Requires(post,preun):	/sbin/chkconfig
+Requires:	rc-scripts
 ExclusiveArch:	%{ix86} %{x8664} alpha ia64 ppc ppc64
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -39,16 +44,32 @@ działać na każdej architekturze.
 
 %install
 rm -rf $RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT/etc/{sysconfig,rc.d/init.d}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
+install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/kexec
+cp -a %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/kexec
+
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+%post
+/sbin/chkconfig --add kexec
+%service kexec restart
+
+%preun
+if [ "$1" = "0" ]; then
+	%service -q kexec stop
+	/sbin/chkconfig --del kexec
+fi
 
 %files
 %defattr(644,root,root,755)
 %doc AUTHORS News TODO
+%attr(754,root,root) /etc/rc.d/init.d/kexec
+%config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/kexec
 %attr(755,root,root) %{_sbindir}/kdump
 %attr(755,root,root) %{_sbindir}/kexec
 %dir %{_libdir}/kexec-tools

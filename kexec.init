@@ -1,0 +1,65 @@
+#!/bin/sh
+#
+# kexec-load	Load kernel image with kexec
+#
+# chkconfig:	345 99 01
+#
+# description:	This tool is used to load a kernel in memory and reboot into the kernel \
+#  				loaded in memory using the kexec system call.
+#
+# $Id$
+
+# Source function library
+. /etc/rc.d/init.d/functions
+
+LOAD_KEXEC=yes
+KERNEL_IMAGE="/boot/vmlinuz"
+INITRD="/boot/initrd"
+APPEND=""
+
+# Get service config - may override defaults
+[ -f /etc/sysconfig/kexec ] && . /etc/sysconfig/kexec
+
+stop() {
+	if ! is_yes "$LOAD_KEXEC" || [ ! -f /sys/kernel/kexec_loaded ]; then
+		return
+	fi
+
+	# skip if already loaded something
+	if [ "`cat /sys/kernel/kexec_loaded 2>/dev/null`" = "1" ]; then
+		return
+	fi
+
+	REAL_APPEND="$APPEND"
+	if [ -z "$REAL_APPEND" ]; then
+	   	REAL_APPEND=$(cat /proc/cmdline)
+	fi
+
+	show "Loading new kernel image (%s) into memory" "$KERNEL_IMAGE"
+	if [ -z "$INITRD" ]; then
+		kexec -l "$KERNEL_IMAGE" --append="$REAL_APPEND"
+	else
+		kexec -l "$KERNEL_IMAGE" --initrd="$INITRD" --append="$REAL_APPEND"
+	fi
+	if [ $? = 0 ]; then
+		ok
+	else
+		fail
+	fi
+}
+
+RETVAL=0
+# See how we were called.
+case "$1" in
+  start)
+	# it's a noop
+	;;
+  stop)
+  	stop
+	;;
+  *)
+	msg_usage "$0 {start|stop}"
+	exit 3
+esac
+
+exit $RETVAL

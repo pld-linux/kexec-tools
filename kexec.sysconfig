@@ -1,0 +1,12 @@
+# Defaults for kexec initscript
+# Sourced by /etc/rc.d/init.d/kexec
+
+# Load a kexec kernel (yes/no)
+LOAD_KEXEC=yes
+
+# Kernel and initrd image
+KERNEL_IMAGE="/boot/vmlinuz"
+INITRD="/boot/initrd.gz"
+
+# If empty, use current /proc/cmdline
+APPEND=""
