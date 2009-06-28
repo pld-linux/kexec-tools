@@ -1,0 +1,11 @@
+--- kexec-tools-2.0.0/kexec/Makefile~	2008-07-14 14:28:19.000000000 +0300
++++ kexec-tools-2.0.0/kexec/Makefile	2009-06-29 01:13:15.900994879 +0300
+@@ -67,7 +67,7 @@
+ 
+ -include $(KEXEC_DEPS)
+ 
+-$(KEXEC): LDFLAGS+=$(LIBS)
++$(KEXEC): LDFLAGS := $(LIBS) $(LDFLAGS)
+ $(KEXEC): $(KEXEC_OBJS) $(UTIL_LIB)
+ 	@$(MKDIR) -p $(@D)
+ 	$(LINK.o) -o $@ $^
