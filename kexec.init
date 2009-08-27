@@ -20,6 +20,30 @@ APPEND=""
 # Get service config - may override defaults
 [ -f /etc/sysconfig/kexec ] && . /etc/sysconfig/kexec
 
+load() {
+	if [ -z "$APPEND" ]; then
+	   	APPEND=$(cat /proc/cmdline)
+	fi
+
+	# convert to real file for readability
+	if [ -L "$KERNEL_IMAGE" ]; then
+		KERNEL_IMAGE=$(readlink -f "$KERNEL_IMAGE")
+	fi
+
+	show "Loading kernel image: %s" "$KERNEL_IMAGE"
+	if [ -z "$INITRD" ]; then
+		kexec -l "$KERNEL_IMAGE" --append="$APPEND"
+	else
+		kexec -l "$KERNEL_IMAGE" --initrd="$INITRD" --append="$APPEND"
+	fi
+	if [ $? = 0 ]; then
+		ok
+	else
+		fail
+	fi
+
+}
+
 start() {
 	if [ -f /var/lock/subsys/kexec ]; then
 		return
@@ -33,40 +57,24 @@ stop() {
 	fi
 
 	# skip if already loaded something
-	if [ "`cat /sys/kernel/kexec_loaded 2>/dev/null`" = "1" ]; then
+	if [ "$(cat /sys/kernel/kexec_loaded 2>/dev/null)" = "1" ]; then
 		return
 	fi
 
-	REAL_APPEND="$APPEND"
-	if [ -z "$REAL_APPEND" ]; then
-	   	REAL_APPEND=$(cat /proc/cmdline)
-	fi
-
-	show "Loading new kernel image (%s) into memory" "$KERNEL_IMAGE"
-	if [ -z "$INITRD" ]; then
-		kexec -l "$KERNEL_IMAGE" --append="$REAL_APPEND"
-	else
-		kexec -l "$KERNEL_IMAGE" --initrd="$INITRD" --append="$REAL_APPEND"
-	fi
-	if [ $? = 0 ]; then
-		ok
-	else
-		fail
-	fi
-
+	load
 	rm -f /var/lock/subsys/kexec
 }
 
 status() {
-  	if [ "$(cat /sys/kernel/kexec_loaded)" = 1 ]; then
-		echo "Kexec image loaded"
+	if [ "$(cat /sys/kernel/kexec_loaded 2>/dev/null)" = "1" ]; then
+		show "Kexec image loaded"; ok
 	else
-		echo "Kexec image is not loaded"
+		show "Kexec image is not loaded"; fail
 	fi
-  	if [ "$(cat /sys/kernel/kexec_crash_loaded)" = 1 ]; then
-		echo "Kexec image for kernel crash loaded"
+  	if [ "$(cat /sys/kernel/kexec_crash_loaded 2>/dev/null)" = 1 ]; then
+		show "Kexec image for kernel crash loaded"; ok
 	else
-		echo "Kexec image for kernel crash is not loaded"
+		show "Kexec image for kernel crash is not loaded"; fail
 	fi
 }
 
@@ -80,14 +88,17 @@ case "$1" in
   	stop
 	;;
   restart)
-	stop
+  	stop
 	start
+	;;
+  load)
+	load
 	;;
   status)
 	status
 	;;
   *)
-	msg_usage "$0 {start|stop|restart|status}"
+	msg_usage "$0 {start|stop|load|restart|status}"
 	exit 3
 esac
 
