@@ -36,12 +36,8 @@ load() {
 	else
 		kexec -l "$KERNEL_IMAGE" --initrd="$INITRD" --append="$APPEND"
 	fi
-	if [ $? = 0 ]; then
-		ok
-	else
-		fail
-	fi
-
+	RETVAL=$?
+	[ $RETVAL = 0 ] && ok || fail
 }
 
 start() {
