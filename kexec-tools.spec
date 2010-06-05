@@ -36,6 +36,8 @@ działać na każdej architekturze.
 %prep
 %setup -q
 %patch0 -p1
+# fix for configure.ac
+sed -i -e 's,]) fi,]); fi,' configure.ac
 
 %build
 %{__autoconf}
