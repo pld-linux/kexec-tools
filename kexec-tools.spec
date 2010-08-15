@@ -1,21 +1,22 @@
 Summary:	Tool for starting new kernel without reboot
 Summary(pl.UTF-8):	Narzędzie pozwalające załadować nowe jądro bez konieczności restartu
 Name:		kexec-tools
-Version:	2.0.1
+Version:	2.0.2
 Release:	1
 License:	GPL v2
 Group:		Applications/System
-Source0:	http://www.kernel.org/pub/linux/kernel/people/horms/kexec-tools/%{name}-%{version}.tar.bz2
-# Source0-md5:	67c1a396fdf67b984dad939a59a01571
+Source0:	http://www.kernel.org/pub/linux/utils/kernel/kexec/%{name}-%{version}.tar.bz2
+# Source0-md5:	35d05fed1c97008ac34c5bfb929295eb
 Source1:	kexec.init
 Source2:	kexec.sysconfig
-URL:		http://www.kernel.org/pub/linux/kernel/people/horms/kexec-tools/
+URL:		http://www.kernel.org/pub/linux/utils/kernel/kexec/
 BuildRequires:	autoconf
 BuildRequires:	rpmbuild(macros) >= 1.228
+BuildRequires:	xz-devel
 BuildRequires:	zlib-devel
 Requires(post,preun):	/sbin/chkconfig
 Requires:	rc-scripts >= 0.4.0.9
-ExclusiveArch:	%{ix86} %{x8664} alpha ia64 ppc ppc64
+ExclusiveArch:	%{ix86} %{x8664} alpha arm ia64 mips ppc ppc64 s390 s390x sh
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_sbindir	/sbin
@@ -34,8 +35,6 @@ działać na każdej architekturze.
 
 %prep
 %setup -q
-# fix for configure.ac
-sed -i -e 's,]) fi,]); fi,' configure.ac
 
 %build
 %{__autoconf}
@@ -72,7 +71,7 @@ fi
 %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/kexec
 %attr(755,root,root) %{_sbindir}/kdump
 %attr(755,root,root) %{_sbindir}/kexec
-%ifnarch ppc ppc64
+%ifarch %{ix86} %{x8664}
 %dir %{_libdir}/kexec-tools
 # what is this anyway, is it needed on other arches?
 %attr(755,root,root) %{_libdir}/kexec-tools/kexec_test
