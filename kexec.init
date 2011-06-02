@@ -86,6 +86,18 @@ status() {
 	else
 		show "Kexec image for kernel crash is not loaded"; fail
 	fi
+
+	# convert to real file for readability
+	if [ -L "$KERNEL_IMAGE" ]; then
+		KERNEL_IMAGE=$(readlink -f "$KERNEL_IMAGE")
+	fi
+	if [ -L "$INITRD" ]; then
+		INITRD=$(readlink -f "$INITRD")
+	fi
+	INIT_COL=0 show "Configured kernel: %s" "$KERNEL_IMAGE"; echo
+	if [ -n "$INITRD" ]; then
+		INIT_COL=0 show "Configured initrd: %s" "$INITRD"; echo
+	fi
 }
 
 RETVAL=0
