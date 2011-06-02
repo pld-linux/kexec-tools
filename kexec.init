@@ -39,11 +39,15 @@ load() {
 	if [ -L "$KERNEL_IMAGE" ]; then
 		KERNEL_IMAGE=$(readlink -f "$KERNEL_IMAGE")
 	fi
+	if [ -L "$INITRD" ]; then
+		INITRD=$(readlink -f "$INITRD")
+	fi
 
-	show "Loading kernel image: %s" "$KERNEL_IMAGE"
 	if [ -z "$INITRD" ]; then
+		show "Loading kernel image: %s, args [%s]" "$KERNEL_IMAGE" "$APPEND"
 		kexec -l "$KERNEL_IMAGE" --append="$APPEND"
 	else
+		show "Loading kernel image: %s, initrd %s, args [%s]" "$KERNEL_IMAGE" "$INITRD" "$APPEND"
 		kexec -l "$KERNEL_IMAGE" --initrd="$INITRD" --append="$APPEND"
 	fi
 	RETVAL=$?
