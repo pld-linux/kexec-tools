@@ -22,7 +22,17 @@ APPEND=""
 
 load() {
 	if [ -z "$APPEND" ]; then
-	   	APPEND=$(cat /proc/cmdline)
+		local a
+		for a in $(cat /proc/cmdline); do
+			case "$a" in
+				kexec_*=)
+					# skip entries like:
+					# kexec_jump_back_entry=0x01000201a4814e49
+					;;
+				*)
+					APPEND="$APPEND $a"
+			esac
+		done
 	fi
 
 	# convert to real file for readability
