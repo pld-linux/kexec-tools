@@ -1,17 +1,20 @@
+# TODO: Xen support (xenctrl.h)
 Summary:	Tool for starting new kernel without reboot
 Summary(pl.UTF-8):	Narzędzie pozwalające załadować nowe jądro bez konieczności restartu
 Name:		kexec-tools
-Version:	2.0.2
-Release:	4
+Version:	2.0.3
+Release:	1
 License:	GPL v2
 Group:		Applications/System
-Source0:	http://www.kernel.org/pub/linux/utils/kernel/kexec/%{name}-%{version}.tar.bz2
-# Source0-md5:	35d05fed1c97008ac34c5bfb929295eb
+Source0:	http://www.kernel.org/pub/linux/utils/kernel/kexec/%{name}-%{version}.tar.xz
+# Source0-md5:	703ffde63d1cbe6a48a2e081f78dab46
 Source1:	kexec.init
 Source2:	kexec.sysconfig
 URL:		http://www.kernel.org/pub/linux/utils/kernel/kexec/
 BuildRequires:	autoconf
 BuildRequires:	rpmbuild(macros) >= 1.228
+BuildRequires:	tar >= 1:1.22
+BuildRequires:	xz
 BuildRequires:	xz-devel
 BuildRequires:	zlib-devel
 Requires(post,preun):	/sbin/chkconfig
@@ -71,6 +74,10 @@ fi
 %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/kexec
 %attr(755,root,root) %{_sbindir}/kdump
 %attr(755,root,root) %{_sbindir}/kexec
+%attr(755,root,root) %{_sbindir}/vmcore-dmesg
+%{_mandir}/man8/kdump.8*
+%{_mandir}/man8/kexec.8*
+%{_mandir}/man8/vmcore-dmesg.8*
 %ifarch %{ix86} %{x8664}
 %dir %{_libdir}/kexec-tools
 # what is this anyway, is it needed on other arches?
