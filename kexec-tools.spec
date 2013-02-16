@@ -78,7 +78,7 @@ fi
 %{_mandir}/man8/kdump.8*
 %{_mandir}/man8/kexec.8*
 %{_mandir}/man8/vmcore-dmesg.8*
-%ifarch %{ix86} %{x8664}
+%ifarch %{ix86}
 %dir %{_libdir}/kexec-tools
 # what is this anyway, is it needed on other arches?
 %attr(755,root,root) %{_libdir}/kexec-tools/kexec_test
