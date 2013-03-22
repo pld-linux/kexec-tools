@@ -1,19 +1,25 @@
-# TODO: Xen support (xenctrl.h)
+#
+# Conditional build:
+%bcond_without	xen		# Xen support
+%bcond_with	booke		# [PPC] build for BookE
+%bcond_with	gamecube	# [PPC] build for GameCube
+#
 Summary:	Tool for starting new kernel without reboot
 Summary(pl.UTF-8):	Narzędzie pozwalające załadować nowe jądro bez konieczności restartu
 Name:		kexec-tools
-Version:	2.0.3
+Version:	2.0.4
 Release:	1
 License:	GPL v2
 Group:		Applications/System
 Source0:	http://www.kernel.org/pub/linux/utils/kernel/kexec/%{name}-%{version}.tar.xz
-# Source0-md5:	703ffde63d1cbe6a48a2e081f78dab46
+# Source0-md5:	d98f008504bea1ddc1a4bcea7de0454c
 Source1:	kexec.init
 Source2:	kexec.sysconfig
 URL:		http://www.kernel.org/pub/linux/utils/kernel/kexec/
-BuildRequires:	autoconf
+BuildRequires:	autoconf >= 2.50
 BuildRequires:	rpmbuild(macros) >= 1.228
 BuildRequires:	tar >= 1:1.22
+%{?with_xen:BuildRequires:	xen-devel}
 BuildRequires:	xz
 BuildRequires:	xz-devel
 BuildRequires:	zlib-devel
@@ -41,7 +47,10 @@ działać na każdej architekturze.
 
 %build
 %{__autoconf}
-%configure
+%configure \
+	%{?with_booke:--with-booke} \
+	%{?with_gamecube:--with-gamecube} \
+	%{!?with_xen:--without-xen}
 %{__make}
 
 %install
