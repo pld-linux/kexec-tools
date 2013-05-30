@@ -6,7 +6,7 @@ LOAD_KEXEC=yes
 
 # Kernel and initrd image
 KERNEL_IMAGE="/boot/vmlinuz"
-INITRD="/boot/initrd.gz"
+INITRD="/boot/initrd"
 
 # If empty, use current /proc/cmdline
 APPEND=""
