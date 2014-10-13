@@ -7,12 +7,12 @@
 Summary:	Tool for starting new kernel without reboot
 Summary(pl.UTF-8):	Narzędzie pozwalające załadować nowe jądro bez konieczności restartu
 Name:		kexec-tools
-Version:	2.0.7
+Version:	2.0.8
 Release:	1
 License:	GPL v2
 Group:		Applications/System
 Source0:	https://www.kernel.org/pub/linux/utils/kernel/kexec/%{name}-%{version}.tar.xz
-# Source0-md5:	457f49ad1708eea1f6b332484855fe25
+# Source0-md5:	2c4dec4e857e84ca530478bac0ec114b
 Source1:	kexec.init
 Source2:	kexec.sysconfig
 Patch0:		%{name}-format.patch
@@ -20,7 +20,7 @@ URL:		https://www.kernel.org/pub/linux/utils/kernel/kexec/
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	rpmbuild(macros) >= 1.228
 BuildRequires:	tar >= 1:1.22
-%{?with_xen:BuildRequires:	xen-devel}
+%{?with_xen:BuildRequires:	xen-devel >= 4.4}
 BuildRequires:	xz
 BuildRequires:	xz-devel
 BuildRequires:	zlib-devel
