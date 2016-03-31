@@ -4,11 +4,15 @@
 %bcond_with	booke		# [PPC] build for BookE
 %bcond_with	gamecube	# [PPC] build for GameCube
 
+%ifarch x32
+# Xen not (yet?) available
+%undefine	with_xen
+%endif
 Summary:	Tool for starting new kernel without reboot
 Summary(pl.UTF-8):	Narzędzie pozwalające załadować nowe jądro bez konieczności restartu
 Name:		kexec-tools
 Version:	2.0.12
-Release:	1
+Release:	2
 License:	GPL v2
 Group:		Applications/System
 Source0:	https://www.kernel.org/pub/linux/utils/kernel/kexec/%{name}-%{version}.tar.xz
@@ -17,6 +21,8 @@ Source1:	kexec.init
 Source2:	kexec.sysconfig
 Patch0:		%{name}-format.patch
 Patch1:		%{name}-xen.patch
+# from http://patchwork.openembedded.org/patch/90971/raw/
+Patch2:		%{name}-x32.patch
 URL:		https://www.kernel.org/pub/linux/utils/kernel/kexec/
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	rpmbuild(macros) >= 1.228
@@ -27,7 +33,7 @@ BuildRequires:	xz-devel
 BuildRequires:	zlib-devel
 Requires(post,preun):	/sbin/chkconfig
 Requires:	rc-scripts >= 0.4.0.9
-ExclusiveArch:	%{ix86} %{x8664} alpha arm cris ia64 m68k mips ppc ppc64 s390 s390x sh
+ExclusiveArch:	%{ix86} %{x8664} x32 alpha arm cris ia64 m68k mips ppc ppc64 s390 s390x sh
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_sbindir	/sbin
@@ -48,6 +54,7 @@ działać na każdej architekturze.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 %{__autoconf}
@@ -91,7 +98,7 @@ fi
 %{_mandir}/man8/kdump.8*
 %{_mandir}/man8/kexec.8*
 %{_mandir}/man8/vmcore-dmesg.8*
-%ifarch %{ix86}
+%ifarch %{ix86} x32
 %dir %{_libdir}/kexec-tools
 # what is this anyway, is it needed on other arches?
 %attr(755,root,root) %{_libdir}/kexec-tools/kexec_test
