@@ -11,12 +11,12 @@
 Summary:	Tool for starting new kernel without reboot
 Summary(pl.UTF-8):	Narzędzie pozwalające załadować nowe jądro bez konieczności restartu
 Name:		kexec-tools
-Version:	2.0.17
+Version:	2.0.18
 Release:	1
 License:	GPL v2
 Group:		Applications/System
 Source0:	https://www.kernel.org/pub/linux/utils/kernel/kexec/%{name}-%{version}.tar.xz
-# Source0-md5:	f72c11e3bd80de23cae144ce8683d96b
+# Source0-md5:	f29840a5312a4a22acc448a6e742ea56
 Source1:	kexec.init
 Source2:	kexec.sysconfig
 Patch0:		%{name}-xen.patch
@@ -90,10 +90,8 @@ fi
 %doc AUTHORS News TODO
 %attr(754,root,root) /etc/rc.d/init.d/kexec
 %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/kexec
-%attr(755,root,root) %{_sbindir}/kdump
 %attr(755,root,root) %{_sbindir}/kexec
 %attr(755,root,root) %{_sbindir}/vmcore-dmesg
-%{_mandir}/man8/kdump.8*
 %{_mandir}/man8/kexec.8*
 %{_mandir}/man8/vmcore-dmesg.8*
 %ifarch %{ix86} x32
