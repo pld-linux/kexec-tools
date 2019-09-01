@@ -11,17 +11,19 @@
 Summary:	Tool for starting new kernel without reboot
 Summary(pl.UTF-8):	Narzędzie pozwalające załadować nowe jądro bez konieczności restartu
 Name:		kexec-tools
-Version:	2.0.19
+Version:	2.0.20
 Release:	1
 License:	GPL v2
 Group:		Applications/System
 Source0:	https://www.kernel.org/pub/linux/utils/kernel/kexec/%{name}-%{version}.tar.xz
-# Source0-md5:	d399dc099fac5f384b429f09d79b2608
+# Source0-md5:	3b3ee68064648b1b9e86ad93b1c50644
 Source1:	kexec.init
 Source2:	kexec.sysconfig
 Patch0:		%{name}-xen.patch
 # from http://patchwork.openembedded.org/patch/90971/raw/
 Patch1:		%{name}-x32.patch
+# https://src.fedoraproject.org/rpms/kexec-tools/raw/master/f/kexec-tools-2.0.20-fix-broken-multiboot2-buliding-for-i386.patch
+Patch2:		%{name}-fix-broken-multiboot2-buliding-for-i386.patch
 URL:		https://www.kernel.org/pub/linux/utils/kernel/kexec/
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	rpmbuild(macros) >= 1.228
@@ -53,6 +55,7 @@ działać na każdej architekturze.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 %{__autoconf}
