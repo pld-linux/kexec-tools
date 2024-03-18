@@ -21,6 +21,7 @@ Source1:	kexec.init
 Source2:	kexec.sysconfig
 # from http://patchwork.openembedded.org/patch/90971/raw/ (stripped to remaining syscall part)
 Patch0:		%{name}-x32.patch
+Patch1:		%{name}-git.patch
 URL:		https://www.kernel.org/pub/linux/utils/kernel/kexec/
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	rpmbuild(macros) >= 1.228
@@ -51,6 +52,7 @@ działać na każdej architekturze.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 %{__autoconf}
